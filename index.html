@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>WWLC - WORLD WIDE LOGISTICS COMPANY</title>
+    
+    <!-- Фавикон -->
+    <link rel="icon" type="image/jpeg" href="https://i.postimg.cc/nhRBB8m6/logo-sajt.jpg">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/nhRBB8m6/logo-sajt.jpg">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #000;
+            --bg-secondary: rgba(10, 10, 30, 0.5);
+            --accent: #00ffff;
+            --accent-glow: rgba(0, 240, 255, 0.7);
+            --text: #f0f0ff;
+            --text-light: #0fbfff;
+            --card: rgba(10, 10, 30, 0.7);
+            --border: rgba(0, 240, 255, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 15% 25%, rgba(0, 240, 255, 0.1) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        canvas#particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            padding: 15px 0;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: none;
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.2rem, 6vw, 3.5rem);
+            font-weight: 900;
+            color: var(--accent);
+            text-shadow: 0 0 40px var(--accent-glow);
+            letter-spacing: 6px;
+            animation: neonPulse 4s infinite alternate;
+        }
+
+        @keyframes neonPulse {
+            from { text-shadow: 0 0 20px var(--accent-glow); }
+            to { text-shadow: 0 0 60px var(--accent-glow), 0 0 100px rgba(0,240,255,0.5); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            position: relative;
+            padding: 10px 25px;
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.4s;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,240,255,0.3);
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,240,255,0.6), transparent);
+            transition: left 0.7s;
+        }
+
+        .nav-links a:hover::before {
+            left: 100%;
+        }
+
+        .nav-links a:hover {
+            color: #000;
+            background: var(--accent);
+            box-shadow: 0 0 60px var(--accent-glow);
+            transform: scale(1.1);
+        }
+
+        .btn-neon {
+            padding: 16px 45px;
+            background: transparent;
+            border: 3px solid var(--accent);
+            color: var(--accent);
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.4rem;
+            transition: all 0.5s;
+            box-shadow: 0 0 30px var(--accent-glow);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-neon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,240,255,0.5) 10%, transparent 90%);
+            opacity: 0;
+            transition: all 0.6s;
+        }
+
+        .btn-neon:hover::before {
+            opacity: 1;
+            transform: scale(1.5);
+        }
+
+        .btn-neon:hover {
+            color: #000;
+            background: var(--accent);
+            box-shadow: 0 0 80px var(--accent-glow);
+        }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-logo-wrapper {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .hero-logo-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(1.2) contrast(1.3);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            padding: 0 5%;
+        }
+
+        .hero-content h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(5rem, 15vw, 12rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: var(--accent);
+            text-shadow: 0 0 80px var(--accent-glow);
+            animation: neonGlow 3s infinite alternate;
+        }
+
+        @keyframes neonGlow {
+            from { text-shadow: 0 0 40px var(--accent-glow); }
+            to { text-shadow: 0 0 120px var(--accent-glow), 0 0 180px rgba(0,240,250,0.6); }
+        }
+
+        .hero-content h2 {
+            font-size: clamp(2rem, 6vw, 4rem);
+            margin-bottom: 40px;
+            color: var(--text);
+            text-shadow: 0 0 30px rgba(224,224,224,0.6);
+        }
+
+        .hero-content p {
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            color: var(--text-light);
+        }
+
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 50px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            padding: 40px 60px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 30px var(--accent-glow);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-25px) scale(1.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 100px var(--accent-glow);
+        }
+
+        .stat-number {
+            font-size: 4.5rem;
+            color: var(--accent);
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        section {
+            padding: 140px 5%;
+            width: 100%;
+        }
+
+        h2.section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(3.5rem, 9vw, 6rem);
+            text-align: center;
+            margin-bottom: 120px;
+            color: var(--accent);
+            text-shadow: 0 0 50px var(--accent-glow);
+            position: relative;
+        }
+
+        h2.section-title:after {
+            content: '';
+            width: 250px;
+            height: 6px;
+            background: var(--accent);
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 60px;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            padding: 60px 40px;
+            border-radius: 30px;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,240,255,0.3) 10%, transparent 90%);
+            transition: all 0.8s;
+            opacity: 0;
+        }
+
+        .card:hover:before {
+            opacity: 1;
+            transform: scale(1.5);
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 120px var(--accent-glow);
+        }
+
+        .card h3 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        .card p {
+            font-size: 1.4rem;
+            color: var(--text-light);
+        }
+
+        .faq-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 30px;
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--card);
+            transition: all 0.5s;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 0 60px rgba(0,240,255,0.4);
+        }
+
+        .faq-question {
+            padding: 30px 50px;
+            background: rgba(0,240,255,0.1);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease, padding 0.7s ease;
+            padding: 0 50px;
+        }
+
+        .faq-answer.open {
+            max-height: 1500px;
+            padding: 50px;
+        }
+
+        .arrow {
+            font-size: 2rem;
+            transition: transform 0.4s;
+        }
+
+        .faq-question.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        .admin-contact, #join {
+            text-align: center;
+            padding: 160px 5%;
+        }
+
+        .admin-contact {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), var(--bg));
+        }
+
+        .admin-contact h2 {
+            font-size: clamp(4rem, 10vw, 6rem);
+        }
+
+        .admin-buttons, .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            margin-top: 100px;
+        }
+
+        footer {
+            padding: 140px 5%;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            font-size: 1.4rem;
+            margin-top: 40px;
+        }
+
+        /* Мобильная адаптация */
+        @media (max-width: 1024px) {
+            .header-container {
+                padding: 0 5%;
+                flex-direction: column;
+                gap: 2em;
+            }
+            .nav-links {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .hero-content h1 {
+                font-size: 6rem;
+            }
+            .hero-content h2 {
+                font-size: 3rem;
+            }
+            .hero-stats {
+                gap: 50px;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 5rem;
+            }
+            .hero-content h2 {
+                font-size: 2.5rem;
+            }
+            .hero-content p {
+                font-size: 1.4rem;
+            }
+            .hero-stats {
+                gap: 40px;
+            }
+            .stat-card {
+                padding: 35px 45px;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .card {
+                padding: 50px 35px;
+            }
+            .card h3 {
+                font-size: 2.2rem;
+            }
+            .faq-question {
+                font-size: 1.5rem;
+                padding: 25px 30px;
+            }
+            .admin-buttons, .contact-buttons {
+                gap: 40px;
+                flex-direction: column;
+            }
+            .btn-neon {
+                padding: 16px 50px;
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 4rem;
+            }
+            .hero-content h2 {
+                font-size: 2rem;
+            }
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles"></canvas>
+    <header>
+        <div class="header-container">
+            <div class="logo">WWLC</div>
+            <div class="nav-links">
+                <a href="https://discord.com/invite/KoeaWY482f" target="_blank">Discord</a>
+                <a href="https://t.me/c/3313972937/1" target="_blank">Telegram</a>
+                <a href="https://truckersmp.com/vtc/84514" target="_blank">BTK</a>
+            </div>
+        </div>
+    </header>
+    <section class="hero">
+        <div class="hero-logo-wrapper">
+            <img src="https://i.postimg.cc/HWqypsty/wwlls.jpg" alt="WWLC Main Image">
+        </div>
+        <div class="hero-content" data-aos="fade-up">
+            <h1>WWLC</h1>
+            <h2>WORLD WIDE LOGISTICS COMPANY</h2>
+            <p>Самая мощная и атмосферная ВТС в Euro Truck Simulator 2 и TruckersMP</p>
+            <div class="hero-stats">
+                <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="stat-number">200+</div>
+                    <div>Активных дальнобойщиков</div>
+                </div>
+                <div class="stat-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="stat-number">500 000+</div>
+                    <div>Километров пройдено</div>
+                </div>
+                <div class="stat-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="stat-number">20:30-21:00</div>
+                    <div>Конвои 20:30-21:00</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="about">
+        <h2 class="section-title" data-aos="fade-up">О КОМПАНИИ</h2>
+        <div class="cards-grid">
+            <div class="card" data-aos="fade-up" data-aos-delay="100">
+                <h3>РЕАЛИСТИЧНАЯ ЛОГИСТИКА</h3>
+                <p>Работаем по-настоящему: грузы, маршруты, строгие правила ПДД и правила</p>
+            </div>
+            <div class="card" data-aos="fade-up" data-aos-delay="200">
+                <h3>ЕЖЕДНЕВНЫЕ КОНВОИ</h3>
+                <p>Конвои каждый день в 20:30-21:00 МСК. Разнообразные маршруты, всегда</p>
+            </div>
+            <div class="card" data-aos="fade-up" data-aos-delay="300">
+                <h3>ДРУЖЕСКАЯ АТМОСФЕРА</h3>
+                <p>Без токсичности, криков и конфликтов. Голосовой чат, шутки и братство</p>
+            </div>
+        </div>
+    </section>
+    <section id="faq" style="background: var(--bg-secondary);">
+        <h2 class="section-title" data-aos="fade-up">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</h2>
+        <div class="faq-container">
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="faq-question">Как вступить в WWLC? <span class="arrow">▼</span></div>
+                <div class="faq-answer">Заходишь в Discord → пишешь администратору код 'join' или просто 'хочу в WWLC'</div>
+            </div>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="150">
+                <div class="faq-question">Какие требования? <span class="arrow">▼</span></div>
+                <div class="faq-answer">Возраст 16+, ETS2 (ДЛС не нужны), TruckersMP, микрофон, желание ездить</div>
+            </div>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="faq-question">Как часто конвои? <span class="arrow">▼</span></div>
+                <div class="faq-answer">Каждый день в 20:30-21:00 МСК. Плюс тематические эвенты</div>
+            </div>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="250">
+                <div class="faq-question">Собеседование? <span class="arrow">▼</span></div>
+                <div class="faq-answer">Ничего заполнять не надо! Просто короткий дружеский чат</div>
+            </div>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="faq-question">Можно с читами? <span class="arrow">▼</span></div>
+                <div class="faq-answer">Категорически запрещено. За читы – мгновенный бан</div>
+            </div>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="350">
+                <div class="faq-question">Как связаться с админами? <span class="arrow">▼</span></div>
+                <div class="faq-answer">Самый быстрый способ – Discord (пиши любому с ролью Admin)</div>
+            </div>
+        </div>
+    </section>
+    <section id="admin-contact">
+        <h2 class="section-title" data-aos="fade-up">АДМИНИСТРАЦИЯ</h2>
+        <p>Вопросы? Заявка? Просто поболтать? – Пиши, мы всегда онлайн и рады</p>
+        <div class="admin-buttons">
+            <a href="https://t.me/WWLC_Owner" target="_blank" class="btn-neon">Telegram</a>
+        </div>
+    </section>
+    <section id="join">
+        <h2 class="section-title" data-aos="fade-up">ПРИСОЕДИНЯЙСЯ К WWLC СЕЙЧАС</h2>
+        <div class="contact-buttons">
+            <a href="https://discord.com/invite/KoeaWY482f" target="_blank" class="btn-neon">Discord</a>
+            <a href="https://t.me/c/3313972937/1" target="_blank" class="btn-neon">Telegram</a>
+            <a href="https://truckersmp.com/vtc/84514" target="_blank" class="btn-neon">BTK</a>
+        </div>
+    </section>
+    <footer>
+        <div class="footer-links">
+            <a href="https://disk.yandex.ru/d/n5sLukq6X-LW9g" target="_blank" class="link"></a>
+        </div>
+        <p>© 2025-2026 WWLC – World Wide Logistics Company. Все права защищены</p>
+        <p style="margin-top:30px;">Сайт создан с любовью для настоящих дальнобойщиков</p>
+    </footer>
+
+    <!-- Частицы -->
+    <script>
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        const particlesArray = [];
+        const numberOfParticles = 80;
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(0, 240, 255, 0.6)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        for (let i = 0; i < numberOfParticles; i++) {
+            particlesArray.push(new Particle());
+        }
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particlesArray.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+    </script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1400, once: true, easing: 'ease-out' });
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const answer = this.nextElementSibling;
+                const isOpen = answer.classList.contains('open');
+                document.querySelectorAll('.faq-answer.open').forEach(openAnswer => {
+                    if (openAnswer !== answer) openAnswer.classList.remove('open');
+                });
+                document.querySelectorAll('.faq-question.active').forEach(q => {
+                    if (q !== this) q.classList.remove('active');
+                });
+                if (isOpen) {
+                    answer.classList.remove('open');
+                    this.classList.remove('active');
+                } else {
+                    answer.classList.add('open');
+                    this.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
