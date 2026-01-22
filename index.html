@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>WWLC - WORLD WIDE LOGISTICS COMPANY</title>
-    
-    <!-- Фавикон -->
-    <link rel="icon" type="image/jpeg" href="https://i.postimg.cc/nhRBB8m6/logo-sajt.jpg">
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/nhRBB8m6/logo-sajt.jpg">
+
+    <!-- Фавикон (новая картинка) -->
+    <link rel="icon" type="image/jpeg" href="https://i.postimg.cc/tJZMQtj9/logosajt.jpg">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/tJZMQtj9/logosajt.jpg">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
@@ -497,16 +497,18 @@
 </head>
 <body>
     <canvas id="particles"></canvas>
+
     <header>
         <div class="header-container">
             <div class="logo">WWLC</div>
             <div class="nav-links">
-                <a href="https://discord.com/invite/KoeaWY482f" target="_blank">Discord</a>
+                <a href="https://discord.com/invite/KqeaWY482f" target="_blank">Discord</a>
                 <a href="https://t.me/c/3313972937/1" target="_blank">Telegram</a>
                 <a href="https://truckersmp.com/vtc/84514" target="_blank">BTK</a>
             </div>
         </div>
     </header>
+
     <section class="hero">
         <div class="hero-logo-wrapper">
             <img src="https://i.postimg.cc/HWqypsty/wwlls.jpg" alt="WWLC Main Image">
@@ -515,6 +517,7 @@
             <h1>WWLC</h1>
             <h2>WORLD WIDE LOGISTICS COMPANY</h2>
             <p>Самая мощная и атмосферная ВТС в Euro Truck Simulator 2 и TruckersMP</p>
+
             <div class="hero-stats">
                 <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
                     <div class="stat-number">200+</div>
@@ -531,6 +534,7 @@
             </div>
         </div>
     </section>
+
     <section id="about">
         <h2 class="section-title" data-aos="fade-up">О КОМПАНИИ</h2>
         <div class="cards-grid">
@@ -548,6 +552,7 @@
             </div>
         </div>
     </section>
+
     <section id="faq" style="background: var(--bg-secondary);">
         <h2 class="section-title" data-aos="fade-up">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</h2>
         <div class="faq-container">
@@ -577,21 +582,24 @@
             </div>
         </div>
     </section>
-    <section id="admin-contact">
+
+    <section class="admin-contact">
         <h2 class="section-title" data-aos="fade-up">АДМИНИСТРАЦИЯ</h2>
         <p>Вопросы? Заявка? Просто поболтать? – Пиши, мы всегда онлайн и рады</p>
         <div class="admin-buttons">
             <a href="https://t.me/WWLC_Owner" target="_blank" class="btn-neon">Telegram</a>
         </div>
     </section>
+
     <section id="join">
         <h2 class="section-title" data-aos="fade-up">ПРИСОЕДИНЯЙСЯ К WWLC СЕЙЧАС</h2>
         <div class="contact-buttons">
-            <a href="https://discord.com/invite/KoeaWY482f" target="_blank" class="btn-neon">Discord</a>
+            <a href="https://discord.com/invite/KqeaWY482f" target="_blank" class="btn-neon">Discord</a>
             <a href="https://t.me/c/3313972937/1" target="_blank" class="btn-neon">Telegram</a>
             <a href="https://truckersmp.com/vtc/84514" target="_blank" class="btn-neon">BTK</a>
         </div>
     </section>
+
     <footer>
         <div class="footer-links">
             <a href="https://disk.yandex.ru/d/n5sLukq6X-LW9g" target="_blank" class="link"></a>
@@ -606,12 +614,15 @@
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
+
         const particlesArray = [];
         const numberOfParticles = 80;
+
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width;
@@ -633,9 +644,11 @@
                 ctx.fill();
             }
         }
+
         for (let i = 0; i < numberOfParticles; i++) {
             particlesArray.push(new Particle());
         }
+
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particlesArray.forEach(p => {
@@ -646,19 +659,24 @@
         }
         animateParticles();
     </script>
+
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 1400, once: true, easing: 'ease-out' });
+
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', function() {
                 const answer = this.nextElementSibling;
                 const isOpen = answer.classList.contains('open');
+
                 document.querySelectorAll('.faq-answer.open').forEach(openAnswer => {
                     if (openAnswer !== answer) openAnswer.classList.remove('open');
                 });
+
                 document.querySelectorAll('.faq-question.active').forEach(q => {
                     if (q !== this) q.classList.remove('active');
                 });
+
                 if (isOpen) {
                     answer.classList.remove('open');
                     this.classList.remove('active');
